@@ -1,8 +1,0 @@
-all: XMLParser.o
-	g++ XMLParser.o -o expat11
-
-XMLParser.o:
-	g++ -std=c++0x -Iinclude -c src/XMLParser.cpp
-
-clean:
-	rm -rf *.o
