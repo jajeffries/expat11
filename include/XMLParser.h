@@ -21,4 +21,6 @@ public:
 	
 	AddCharacterDataHandler(std::string elementName, CharacterDataHandlerFunction&& func);
 	AddCharacterDataHandler(std::string elementName);*/
+private:
+	std::unordered_multimap<std::string, const ElementHandlerFunction*> 
 };
