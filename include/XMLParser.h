@@ -1,3 +1,5 @@
+#include <unordered_map>
+
 #include "expat.h"
 
 #include "parserDefs.h"
@@ -11,10 +13,10 @@ public:
 		
 	bool Parse();
 	
-	/*typedef ElementHandlerFunction (bool (XMLParser::*(const &&XMLElement))) ;
+	typedef ElementHandlerFunction (bool (XMLParser::*(const &&XMLElement))) ;
 	
 	bool AddStartElementHandler(std::string elementName, ElementHandlerFunction&& func);
-	bool RemoveStartElementHandler(std::string elementName);
+	/*bool RemoveStartElementHandler(std::string elementName);
 	
 	bool AddEndElementHandler(std::string elementName, ElementHandlerFunction&& func);
 	bool RemoveEndElementHandler(std::string elementName);
@@ -22,5 +24,5 @@ public:
 	AddCharacterDataHandler(std::string elementName, CharacterDataHandlerFunction&& func);
 	AddCharacterDataHandler(std::string elementName);*/
 private:
-	std::unordered_multimap<std::string, const ElementHandlerFunction*> 
+	std::unordered_multimap<std::string, const ElementHandlerFunction*> startElementHandlers;
 };
