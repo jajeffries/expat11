@@ -9,6 +9,7 @@ class XMLParser
 public:
 	XMLParser() =default;
 	XMLParser(const XMLParser &other) =default;
+	XMLParser(XMLParser &&other) =default;
 	virtual ~XMLParser();
 		
 	bool Parse();
