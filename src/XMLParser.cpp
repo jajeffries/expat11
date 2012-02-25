@@ -4,13 +4,7 @@
 
 using namespace expat11;
 
-XMLParser::XMLParser()
-{
-}
-
-XMLParser::~XMLParser()
-{
-}
+XMLParser::~XMLParser(){}
 
 bool Parse()
 {
