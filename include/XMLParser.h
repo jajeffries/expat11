@@ -1,37 +1,49 @@
+#pragma once
+#ifndef XMLPARSER_H
+#define XMLPARSER_H
+
 #include <functional>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
-class XMLParser
+namespace expat11
 {
-public:
-	XMLParser() =default;
-	XMLParser(const XMLParser &other) =default;
-	XMLParser(XMLParser &&other) =default;
-	virtual ~XMLParser();
-		
-	bool Parse();
-	
-	typedef  std::function< bool ( const std::vector< std::string >& ) > StartElementHandler;
-	void AddStartElementHandler( const std::string& elementName, 
-	                             const StartElementHandler& startElementHandler);
-	
-	typedef  std::function< bool ( const std::vector< std::string >& ) > EndElementHandler;
-	void AddEndElementHandler( const std::string& elementName, 
-	                           const EndElementHandler& endElementHandler);
-	
-	typedef  std::function< bool ( const std::string& ) > ValueHandler;
-	void AddValueHandler( const std::string& elementName, 
-	                      const ValueHandler& valueHandler);
+
+	typedef std::pair<std::string, std::string> Attribute;
+	class XMLParser
+	{
+	public:
+		XMLParser() =default;
+		XMLParser(const XMLParser &other) =default;
+		XMLParser(XMLParser &&other) =default;
+		virtual ~XMLParser();
+
+		bool Parse() const;
+
+		typedef std::function< bool ( const std::vector< Attribute >& ) > StartElementHandler;
+		void AddStartElementHandler( const std::string& elementName, 
+					     StartElementHandler startElementHandler);
+		size_t StartElementHandlerCount() const;
+
+		typedef std::function< bool ( const std::vector< Attribute >& ) > EndElementHandler;
+		void AddEndElementHandler( const std::string& elementName, 
+				           EndElementHandler endElementHandler);
+		size_t EndElementHandlerCount() const;
+
+		typedef std::function< bool ( const std::string& ) > ValueHandler;
+		void AddValueHandler( const std::string& elementName, 
+				      ValueHandler valueHandler);
+		size_t ValueHandlerCount() const;
+
+	private:
+		std::unordered_map< std::string, std::vector<StartElementHandler> > m_StartElementHandlers;
+
+		std::unordered_map< std::string, std::vector<EndElementHandler> > m_EndElementHandlers;
+		std::unordered_map< std::string, std::vector<ValueHandler> > m_ValueHandlers;
 
 
-
-private:
-	std::unordered_map< std::string, std::vector<StartElementHandler> > m_StartElementHandlers;
-	
-	std::unordered_map< std::string, std::vector<EndElementHandler> > m_EndElementHandlers;
-	std::unordered_map< std::string, std::vector<ValueHandler> > m_ValueHandlers;
-	
-
-};
+	};
+}
+#endif // XMLPARSER_H

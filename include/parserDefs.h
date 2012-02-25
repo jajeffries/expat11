@@ -1,14 +1,9 @@
 #include <string>
 #include <vector>
 
-struct XMLAttribute
+struct Attribute
 {
 	std::string name;
 	std::string value;
 };
 
-struct XMLElement
-{
-	std::string name;
-	std::vector<XMLAttribute> attributes;
-};
