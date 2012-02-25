@@ -44,4 +44,3 @@ size_t XMLParser::ValueHandlerCount() const
 	return m_ValueHandlers.size();
 }
 
-int main(){}

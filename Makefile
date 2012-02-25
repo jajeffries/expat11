@@ -1,6 +1,6 @@
 CC=g++
-CFLAGS=-c -Wall -std=c++0x -Iinclude
-LDFLAGS=
+CFLAGS=-c -Wall -fpic -std=c++0x -Iinclude
+LDFLAGS=-shared
 SOURCES=src/XMLParser.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=expat11
