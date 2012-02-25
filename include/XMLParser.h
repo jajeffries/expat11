@@ -1,8 +1,7 @@
+#include <functional>
+#include <string>
 #include <unordered_map>
-
-#include "expat.h"
-
-#include "parserDefs.h"
+#include <vector>
 
 class XMLParser
 {
@@ -14,16 +13,11 @@ public:
 		
 	bool Parse();
 	
-	typedef ElementHandlerFunction (bool (XMLParser::*(const &&XMLElement))) ;
-	
-	bool AddStartElementHandler(std::string elementName, ElementHandlerFunction&& func);
-	/*bool RemoveStartElementHandler(std::string elementName);
-	
-	bool AddEndElementHandler(std::string elementName, ElementHandlerFunction&& func);
-	bool RemoveEndElementHandler(std::string elementName);
-	
-	AddCharacterDataHandler(std::string elementName, CharacterDataHandlerFunction&& func);
-	AddCharacterDataHandler(std::string elementName);*/
+	typedef  std::function< bool ( const std::vector< std::string >& ) > ElementHandlerFunction;
+	void AddStartElementHandler( const std::string& elementName, 
+	                             const ElementHandlerFunction& startElementHandler);
+
 private:
-	std::unordered_multimap<std::string, const ElementHandlerFunction*> startElementHandlers;
+	std::unordered_map< std::string, std::vector<ElementHandlerFunction> > m_StartElementHandlers;
+
 };

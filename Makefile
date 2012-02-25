@@ -16,3 +16,5 @@ $(EXECUTABLE): $(OBJECTS)
 clean:
 	rm -rf src/*.o expat11
 
+tests:
+	$(CC) $(CFLAGS) $< -o tests
