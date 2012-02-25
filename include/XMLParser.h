@@ -20,7 +20,7 @@ namespace expat11
 		XMLParser(XMLParser &&other) =default;
 		virtual ~XMLParser();
 
-		bool Parse() const;
+		bool Parse(const std::string& xml) const;
 
 		typedef std::function< bool ( const std::vector< Attribute >& ) > StartElementHandler;
 		void AddStartElementHandler( const std::string& elementName, 
@@ -33,15 +33,14 @@ namespace expat11
 		size_t EndElementHandlerCount() const;
 
 		typedef std::function< bool ( const std::string& ) > ValueHandler;
-		void AddValueHandler( const std::string& elementName, 
-				      ValueHandler valueHandler);
+		void AddValueHandler( ValueHandler valueHandler );
 		size_t ValueHandlerCount() const;
 
 	private:
 		std::unordered_map< std::string, std::vector<StartElementHandler> > m_StartElementHandlers;
 
 		std::unordered_map< std::string, std::vector<EndElementHandler> > m_EndElementHandlers;
-		std::unordered_map< std::string, std::vector<ValueHandler> > m_ValueHandlers;
+		std::vector< ValueHandler > m_ValueHandlers;
 
 
 	};

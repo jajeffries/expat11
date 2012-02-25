@@ -6,7 +6,7 @@ using namespace expat11;
 
 XMLParser::~XMLParser(){}
 
-bool Parse()
+bool Parse( const std::string& xml )
 {
 	return true;
 }
@@ -33,10 +33,9 @@ size_t XMLParser::EndElementHandlerCount() const
 	return m_EndElementHandlers.size();
 }
 
-void XMLParser::AddValueHandler( const std::string& elementName, 
-                                 ValueHandler valueHandler)
+void XMLParser::AddValueHandler( ValueHandler valueHandler )
 {
-	m_ValueHandlers[ elementName ].push_back( valueHandler );
+	m_ValueHandlers.push_back( valueHandler );
 }
 
 size_t XMLParser::ValueHandlerCount() const
