@@ -36,12 +36,17 @@ namespace expat11
 		void AddValueHandler( ValueHandler valueHandler );
 		size_t ValueHandlerCount() const;
 
+		void SetReadSize(int readSize);
+		int GetReadSize() const;
+
 	private:
 		std::unordered_map< std::string, std::vector<StartElementHandler> > m_StartElementHandlers;
 
 		std::unordered_map< std::string, std::vector<EndElementHandler> > m_EndElementHandlers;
 		std::vector< ValueHandler > m_ValueHandlers;
-
+		
+		const static int DEFAULT_READSIZE(50);
+		int m_ReadSize = DEFAULT_READSIZE;
 
 	};
 }

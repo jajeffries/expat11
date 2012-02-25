@@ -8,6 +8,21 @@ XMLParser::~XMLParser(){}
 
 bool Parse( const std::string& xml )
 {
+	XML_Parser parser = XML_ParserCreate(NULL);
+	int depth = 0;
+	XML_SetUserData(parser, &depth);
+	XML_SetElementHandler(parser, startElement, endElement);
+	
+	int finished = 0;
+	char buf[m_ReadSize];
+	while( !finished )
+	{
+		if ( !XML_Parse(parser, buf, length, finished ) )
+		{
+
+		}
+
+	}
 	return true;
 }
 
@@ -43,3 +58,12 @@ size_t XMLParser::ValueHandlerCount() const
 	return m_ValueHandlers.size();
 }
 
+void SetReadSize( int readSize )
+{
+	m_ReadSize = readSize;
+}
+
+int GetReadSize() const
+{
+	return m_ReadSize;
+}
