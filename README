@@ -1,0 +1,26 @@
+README
+======
+expat11 is a library providing c++11 bindings for James Clark's excellent expat XML parser.
+
+Dependencies
+------------
+All you need is the expat library which is available from http://expat.sourceforge.net/ If youhave installed this from a package manager or similar make sure you also have the headers installed (usually in the form of a dev package).
+
+Build
+-----
+make all
+
+Usage
+-----
+
+#include "XMLParser.h"
+
+void ParseSomeXML(std::string xml)
+{
+	XMLParser parser;
+	parser.AddStartElementHandler("ElementName", StartElementFunction);
+	parser.AddEndElementHandler("ElementName", EndElementFunction);
+	parser.AddValueHandler(ValueFunction);
+	parser.Parse(xml);
+
+}
