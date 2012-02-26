@@ -43,7 +43,8 @@ namespace expat11
 		int GetReadSize() const;
 
 	private:
-		std::unordered_map< std::string, std::vector<StartElementHandler> > m_StartElementHandlers;
+		typedef	std::unordered_map< std::string, std::vector<StartElementHandler> > StartHandlerMap;
+	  StartHandlerMap m_StartElementHandlers;
 
 		std::unordered_map< std::string, std::vector<EndElementHandler> > m_EndElementHandlers;
 		std::vector< ValueHandler > m_ValueHandlers;
@@ -52,9 +53,35 @@ namespace expat11
 		int m_ReadSize;
 
 	};
-	
+
+	void StoreAttributes(const char **attributes, std::vector<Attribute>& attributesVector)
+	{
+		for(const char* attr = *attributes; attr != NULL; ++attr)
+		{
+			
+		}
+	}
+
 	void StartElement(void *data, const char *elementName, const char **attributes)
 	{
+		std::string element(elementName);
+		
+		std::vector<Attribute> attributesVector;
+		StoreAttributes(attributes, attributesVector);
+
+		XMLParser* pInstance = static_cast<XMLParser*>(data);
+		auto handlerVectorIter = pInstance->m_StartElementHandlers.find(elementName);
+		
+		//TODO: Change this to arange based for loop in gcc 4.6 and above
+		for(auto handlerIter = handlerVectorIter->second.cbegin();
+		    handlerIter != handlerVectorIter->second.cend();
+				++handlerIter)
+		{
+			if (!(*handlerIter)(element, attributesVector) )
+			{
+				//error
+			}
+		}
 
 	}	
 

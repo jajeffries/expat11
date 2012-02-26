@@ -20,7 +20,7 @@ bool XMLParser::Parse( const std::string& xml )
 	XML_Parser parser = XML_ParserCreate(NULL);
 	int depth = 0;
 	XML_SetUserData(parser, &depth);
-	XML_SetElementHandler(parser, StartElement, EndElement);
+	XML_SetElementHandler(parser, &StartElement, &EndElement);
 	
 	int finished = 0;
 	char buf[m_ReadSize];
@@ -36,8 +36,6 @@ bool XMLParser::Parse( const std::string& xml )
 	XML_ParserFree(parser);
 	return true;
 }
-
-
 
 void XMLParser::AddStartElementHandler( const std::string& elementName, 
                                         StartElementHandler startElementHandler)
