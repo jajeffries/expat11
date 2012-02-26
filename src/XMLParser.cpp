@@ -4,17 +4,27 @@
 
 using namespace expat11;
 
-XMLParser::~XMLParser(){}
+const int DEFAULT_READSIZE = 50;
 
-bool Parse( const std::string& xml )
+XMLParser::XMLParser()
+:m_ReadSize(DEFAULT_READSIZE)
+{
+}
+
+XMLParser::~XMLParser()
+{
+}
+
+bool XMLParser::Parse( const std::string& xml )
 {
 	XML_Parser parser = XML_ParserCreate(NULL);
 	int depth = 0;
 	XML_SetUserData(parser, &depth);
-	XML_SetElementHandler(parser, startElement, endElement);
+	XML_SetElementHandler(parser, StartElement, EndElement);
 	
 	int finished = 0;
 	char buf[m_ReadSize];
+	int length = 0;
 	while( !finished )
 	{
 		if ( !XML_Parse(parser, buf, length, finished ) )
@@ -23,8 +33,11 @@ bool Parse( const std::string& xml )
 		}
 
 	}
+	XML_ParserFree(parser);
 	return true;
 }
+
+
 
 void XMLParser::AddStartElementHandler( const std::string& elementName, 
                                         StartElementHandler startElementHandler)
@@ -58,12 +71,12 @@ size_t XMLParser::ValueHandlerCount() const
 	return m_ValueHandlers.size();
 }
 
-void SetReadSize( int readSize )
+void XMLParser::SetReadSize( int readSize )
 {
 	m_ReadSize = readSize;
 }
 
-int GetReadSize() const
+int XMLParser::GetReadSize() const
 {
 	return m_ReadSize;
 }

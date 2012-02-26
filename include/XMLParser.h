@@ -15,12 +15,15 @@ namespace expat11
 	class XMLParser
 	{
 	public:
-		XMLParser() =default;
+		XMLParser();
 		XMLParser(const XMLParser &other) =default;
 		XMLParser(XMLParser &&other) =default;
 		virtual ~XMLParser();
 
-		bool Parse(const std::string& xml) const;
+		bool Parse(const std::string& xml) ;
+		
+		friend void StartElement(void *data, const char *elementName, const char **attributes);
+		friend void EndElement(void *data, const char *elelemntName);
 
 		typedef std::function< bool ( const std::vector< Attribute >& ) > StartElementHandler;
 		void AddStartElementHandler( const std::string& elementName, 
@@ -45,9 +48,19 @@ namespace expat11
 		std::unordered_map< std::string, std::vector<EndElementHandler> > m_EndElementHandlers;
 		std::vector< ValueHandler > m_ValueHandlers;
 		
-		const static int DEFAULT_READSIZE(50);
-		int m_ReadSize = DEFAULT_READSIZE;
+		static const int DEFAULT_READSIZE; 
+		int m_ReadSize;
 
 	};
+	
+	void StartElement(void *data, const char *elementName, const char **attributes)
+	{
+
+	}	
+
+	void EndElement(void *data, const char *elementName)
+	{
+
+	}
 }
 #endif // XMLPARSER_H
