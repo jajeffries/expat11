@@ -25,7 +25,7 @@ namespace expat11
 		friend void StartElement(void *data, const char *elementName, const char **attributes);
 		friend void EndElement(void *data, const char *elelemntName);
 
-		typedef std::function< bool ( const std::vector< Attribute >& ) > StartElementHandler;
+		typedef std::function< bool ( std::vector< Attribute > ) > StartElementHandler;
 		void AddStartElementHandler( const std::string& elementName, 
 					     StartElementHandler startElementHandler);
 		size_t StartElementHandlerCount() const;
@@ -72,12 +72,12 @@ namespace expat11
 		XMLParser* pInstance = static_cast<XMLParser*>(data);
 		auto handlerVectorIter = pInstance->m_StartElementHandlers.find(elementName);
 		
-		//TODO: Change this to arange based for loop in gcc 4.6 and above
+		//TODO: Change this to a range based for loop in gcc 4.6 and above
 		for(auto handlerIter = handlerVectorIter->second.cbegin();
 		    handlerIter != handlerVectorIter->second.cend();
 				++handlerIter)
 		{
-			if (!(*handlerIter)(element, attributesVector) )
+			if (!(*handlerIter)( attributesVector ))
 			{
 				//error
 			}
