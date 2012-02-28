@@ -21,7 +21,8 @@ bool XMLParser::Parse( const std::string& xml )
 	int depth = 0;
 	XML_SetUserData(parser, &depth);
 	XML_SetElementHandler(parser, &StartElement, &EndElement);
-	
+	XML_SetCharacterDataHandler(parser, &ValueData);
+
 	int finished = 0;
 	char buf[m_ReadSize];
 	int length = 0;
@@ -59,9 +60,10 @@ size_t XMLParser::EndElementHandlerCount() const
 	return m_EndElementHandlers.size();
 }
 
-void XMLParser::AddValueHandler( ValueHandler valueHandler )
+void XMLParser::AddValueHandler( const std::string& elementName, 
+				 ValueHandler valueHandler )
 {
-	m_ValueHandlers.push_back( valueHandler );
+	m_ValueHandlers[elementName].push_back( valueHandler );
 }
 
 size_t XMLParser::ValueHandlerCount() const
@@ -77,4 +79,13 @@ void XMLParser::SetReadSize( int readSize )
 int XMLParser::GetReadSize() const
 {
 	return m_ReadSize;
+}
+
+void XMLParser::SetCurrentElement(const std::string& currentElement)
+{
+	m_CurrentElement = currentElement;
+}
+const std::string& XMLParser::GetCurrentElement() const
+{
+	return m_CurrentElement;
 }
